@@ -1,82 +1,15 @@
-# Project Configuration
+# ⚠️ IMPORTANT PROJECT SPECS: 
 
-This document captures the exact configuration of the Better-U-Bot project to ensure reproducibility and avoid dependency conflicts.
-
-## Python Version
-- **ACTUAL DEPLOYED VERSION**: Python 3.11 (used by Railway in production)
-- Runtime file specifies: python-3.11
-- Local development environment using: Python 3.12.1
-
-## Dependencies
-From requirements.txt:
-```
-python-dotenv==1.0.1
-python-telegram-bot==13.15
-psycopg2-binary==2.9.5
-SQLAlchemy==2.0.15
-pymysql
-anthropic
-mistralai
-openai
-```
-
-## Railway Installed Packages
-```
-Successfully installed APScheduler-3.6.3 CFFI-1.17.1 SQLAlchemy-2.0.15 
-annotated-types-0.7.0 anthropic-0.49.0 anyio-4.9.0 cachetools-4.2.2 
-certifi-2025.1.31 distro-1.9.0 eval-type-backport-0.2.2 greenlet-3.1.1 
-h11-0.14.0 httpcore-1.0.7 httpx-0.28.1 idna-3.10 jiter-0.9.0 
-jsonpath-python-1.0.6 mistralai-1.5.2 mypy-extensions-1.0.0 numpy-2.2.4 
-openai-1.68.0 psycopg2-binary-2.9.5 pycparser-2.22 pydantic-2.10.6 
-pydantic-core-2.27.2 pymysql-1.1.1 python-dateutil-2.9.0.post0 
-python-dotenv-1.0.1 python-telegram-bot-13.15 pytz-2025.1 six-1.17.0 
-sniffio-1.3.1 sounddevice-0.5.1 tornado-6.1 tqdm-4.67.1 
-typing-extensions-4.12.2 typing-inspect-0.9.0 tzlocal-5.3.1
-```
-
-## Critical Import Patterns
-From examining bot.py and the python-telegram-bot v13.15 documentation:
-
-```python
-# Main imports for bot functionality
-from telegram.ext import Updater, CommandHandler, CallbackContext, CallbackQueryHandler, ConversationHandler, MessageHandler, Filters
-
-# For defining bot commands and handling updates
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove
-
-# Important note: telegram.ext.Updater is the main class for starting the bot
-# Use uppercase for classes (Update, CallbackContext) and lowercase for modules (telegram, telegram.ext)
-```
-
-## Bot Structure
-- Entry point: `updater = Updater(token=BOT_TOKEN, use_context=True)`
-- Dispatcher: `dp = updater.dispatcher`
-- Command registration: `dp.add_handler(CommandHandler("command", function))`
-- Starting bot: `updater.start_polling()` and `updater.idle()`
-
-## Command Handler Pattern
-```python
-def command_name(update, context):
-    """Handles the /command_name command"""
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Response message")
-```
-
-## Environment Variables
-- TELEGRAM_BOT_TOKEN - Required for bot authentication
-
-## Notes on Version Specifics
-- python-telegram-bot v13.15 uses the old-style handlers with `update` and `context` parameters
-- This version requires `use_context=True` in the Updater constructor
-- The project does NOT use the newer v20+ API which has different import patterns and async-based handlers
 
 ## Important Commit Reference
-- Commit [4de5fa4](https://github.com/dobe4ever/better-u-bot/commit/4de5fa4) - "Add comprehensive configuration documentation and telegram bot reference"
-- This commit contains the definitive reference documentation for the project's configuration
+- Commit [4de5fa4](https://github.com/dobe4ever/better-u-bot/commit/4de5fa4) 
+- This commit contains the definitive reference documentation & the bot runs with zero conflics in railway production.
 
-## Railway Deployment Configuration
-The actual Railway deployment uses:
+## Python Version
+```python
+- **ACTUAL DEPLOYED VERSION**: Python 3.11 (used by Railway in production)
+- Runtime file specifies: python-3.11
 
-```
 Nixpacks v1.34.1
 setup: python311, postgresql_16.dev, gcc
 install: python -m venv --copies /opt/venv && . /opt/venv/bin/activate && pip install -r requirements.txt
@@ -111,4 +44,86 @@ Railway JSON configuration:
     "restartPolicyMaxRetries": 10
   }
 }
+```
+
+## Exact dependency versions that work
+From requirements.txt:
+```
+python-dotenv==1.0.1
+python-telegram-bot==13.15
+psycopg2-binary==2.9.5
+SQLAlchemy==2.0.15
+pymysql
+anthropic
+mistralai
+openai
+```
+
+## Environment Variables in Railway
+
+Railway automatically provides to all builds and deployments:
+
+### System Variables
+- `RAILWAY_PRIVATE_DOMAIN`
+- `RAILWAY_TCP_PROXY_DOMAIN`
+- `RAILWAY_TCP_PROXY_PORT`
+- `RAILWAY_TCP_APPLICATION_PORT`
+- `RAILWAY_PROJECT_NAME`
+- `RAILWAY_ENVIRONMENT_NAME`
+- `RAILWAY_SERVICE_NAME`
+- `RAILWAY_PROJECT_ID`
+- `RAILWAY_ENVIRONMENT_ID`
+- `RAILWAY_SERVICE_ID`
+- `RAILWAY_VOLUME_ID`
+- `RAILWAY_VOLUME_NAME`
+- `RAILWAY_VOLUME_MOUNT_PATH`
+- `RAILWAY_DEPLOYMENT_DRAINING_SECONDS`
+
+### PostgreSQL Variables
+- `DATABASE_URL`
+- `DATABASE_PUBLIC_URL`
+- `PGDATA`
+- `PGDATABASE`
+- `PGHOST`
+- `PGPASSWORD`
+- `PGPORT`
+- `PGUSER`
+- `POSTGRES_DB`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_USER`
+- `SSL_CERT_DAYS`
+
+### Custom Variables
+- `ANTHROPIC_API_KEY`
+- `TELEGRAM_BOT_TOKEN`
+- `MISTRAL_API_KEY`
+- `DEEPSEEK_API_KEY`
+- `OPENAI_API_KEY`
+
+___
+
+```python
+# Python - CORRECT for Railway
+import os
+api_key = os.environ['API_KEY']  # USE THIS FORMAT!
+# NOT THESE:
+# api_key = os.getenv('API_KEY')
+# api_key = os.environ.get('API_KEY')
+```
+## Notes on Version Specifics
+- python-telegram-bot v13.15 uses the old-style handlers with `update` and `context` parameters
+- This version requires `use_context=True` in the Updater constructor
+- The project does NOT use the newer v20+ API which has different import patterns and async-based handlers
+
+## Code example
+
+```python
+# Main imports for bot functionality
+from telegram.ext import Updater, CommandHandler, CallbackContext, CallbackQueryHandler, ConversationHandler, MessageHandler, Filters
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove
+
+## Command Handler Pattern
+```python
+def command_name(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Response message")
 ```

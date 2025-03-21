@@ -27,7 +27,7 @@ def main():
 ## Command Handlers
 
 ```python
-def start_command(update: Update, context: CallbackContext):
+def start_command(update, context: CallbackContext):
     """Handle the /start command"""
     user = update.effective_user
     update.message.reply_text(f'Hello {user.first_name}!')
