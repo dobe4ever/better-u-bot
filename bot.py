@@ -8,10 +8,10 @@ BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
 bot = Bot(BOT_TOKEN)
 
 def start(update):
-    update.message.reply_text("Help!")
+    bot.send_message(chat_id=update.effective_chat.id, text="Hey hot stuff! I'm your digital bae. What's cookin'?")
 
 def help_command(update):
-    update.message.reply_text("Help!")
+    bot.send_message(chat_id=update.effective_chat.id, text="Help!")
 
 
 def echo(update):
