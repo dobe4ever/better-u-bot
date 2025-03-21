@@ -1,43 +1,30 @@
 import logging
-
 from telegram import ForceReply, Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+import os
 
-# Enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-# set higher logging level for httpx to avoid all GET and POST requests being logged
-logging.getLogger("httpx").setLevel(logging.WARNING)
+# Telegram
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-logger = logging.getLogger(__name__)
-
-
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
-    user = update.effective_user
-    update.message.reply_html(
-        rf"Hi {user.mention_html()}!",
-        reply_markup=ForceReply(selective=True),
-    )
+def start(update):
+    # user = add_user(update.effective_user)
+    update.message.reply_text("I'm alive motherfucker! What you want?")
 
 
-def help_command(update: Update, context: CallbackContext) -> None:
+def help_command(update):
     """Send a message when the command /help is issued."""
     update.message.reply_text("Help!")
 
 
-def echo(update: Update, context: CallbackContext) -> None:
+def echo(update):
     """Echo the user message."""
     update.message.reply_text(update.message.text)
 
 
-def main() -> None:
+def main():
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
-    updater = Updater("TOKEN")
+    updater = Updater("BOT_TOKEN")
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
@@ -51,6 +38,8 @@ def main() -> None:
 
     # Start the Bot
     updater.start_polling()
+
+    logging.info("Bot fucking started!")
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT
     updater.idle()
