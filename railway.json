@@ -1,7 +1,13 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "python -m pip install --upgrade pip && pip install -r requirements.txt"
+  },
+  "nixpacks": {
+    "python": {
+      "version": "3.10"
+    }
   },
   "deploy": {
     "runtime": "V2",
