@@ -10,13 +10,8 @@ bot = Bot(BOT_TOKEN)
 def start(update, context):
     bot.send_message(chat_id=update.effective_chat.id, text="Hey hot stuff! I'm your digital bae. What's cookin'?")
 
-def help_command(update):
+def help_command(update, context):
     bot.send_message(chat_id=update.effective_chat.id, text="Help!")
-
-
-def echo(update):
-    update.message.reply_text(update.message.text)
-
 
 def main():
     updater = Updater(token=BOT_TOKEN, use_context=True)
