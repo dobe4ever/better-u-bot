@@ -1,13 +1,14 @@
 import logging
+from telegram import Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 
 # Telegram
 BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
+bot = Bot(BOT_TOKEN)
 
 def start(update):
-    # user = add_user(update.effective_user)
-    update.message.reply_text("I'm alive motherfucker! What you want?")
+    update.message.reply_text("Help!")
 
 def help_command(update):
     update.message.reply_text("Help!")
