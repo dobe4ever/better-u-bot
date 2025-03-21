@@ -1,6 +1,5 @@
 import logging
-from telegram import Bot
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, Bot
 import os
 
 # Telegram
