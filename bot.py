@@ -1,7 +1,8 @@
-from telegram.ext import Updater, CommandHandler
 import os
+from telegram.ext import Updater, CommandHandler
 
-token = os.environ['TELEGRAM_BOT_TOKEN']  # Use this format. DO NOT EDIT!
+ # Use this format. DO NOT EDIT!
+token = os.environ['TELEGRAM_BOT_TOKEN']
 
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Hey hot stuff! I'm your digital bae. What's cookin'?")
@@ -18,6 +19,8 @@ def main():
 
     updater.start_polling()
     updater.idle()
- 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
+
+
