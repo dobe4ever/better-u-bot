@@ -3,7 +3,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 
 # Telegram
-BOT_TOKEN = os.environ("TELEGRAM_BOT_TOKEN")
+BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
 
 def start(update):
     # user = add_user(update.effective_user)
