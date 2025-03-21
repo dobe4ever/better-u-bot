@@ -31,7 +31,7 @@ import psycopg2
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # Constants
-BOT_TOKEN = os.environ['TOKEN']
+BOT_TOKEN = os.environ['TELEGRAM_BOT_TOKEN']
 api_key = os.environ["MISTRAL_API_KEY"]
 DATABASE_URL = os.environ['DATABASE_URL']
 USER_ID = '548104065'
